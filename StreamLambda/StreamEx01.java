@@ -1,7 +1,8 @@
+package StreamLambda;
+
 import java.util.List;
 import java.util.Arrays;
 import java.util.Comparator;
-
 
 public class StreamEx01{
   public static void main(String[]args){
@@ -14,10 +15,12 @@ public class StreamEx01{
     System.out.println("\nSort reverse by age:");
     Comparator<Person> comp = (aName, bName) ->
         aName.getAge().compareTo(bName.getAge());
+
     //Make a stream
     people.stream()
         .sorted(comp.reversed())
         .forEach(System.out::println);
 
+    System.out.println("WAAAH");
   }
 }

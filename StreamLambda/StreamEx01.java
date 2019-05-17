@@ -13,14 +13,24 @@ public class StreamEx01{
       );
 
     System.out.println("\nSort reverse by age:");
-    Comparator<Person> comp = (aName, bName) ->
+    Comparator<Person> compAge = (aName, bName) ->
         aName.getAge().compareTo(bName.getAge());
-
-    //Make a stream
+    
+    Comparator<Person> compFirstName = (aName, bName) ->
+        aName.getFirstName().compareTo(bName.getFirstName());
+    
+    
+    //Make a stream, sort by age
     people.stream()
-        .sorted(comp.reversed())
+        .sorted(compAge.reversed())
         .forEach(System.out::println);
-
+    
+    System.out.println("\nSort reverse by first name:");
+    //Make a stream, sort by name
+    people.stream()
+        .sorted(compFirstName.reversed())
+        .forEach(System.out::println);
+    
     System.out.println("WAAAH");
   }
 }

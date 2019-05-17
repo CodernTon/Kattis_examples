@@ -14,7 +14,7 @@ public class StreamEx01{
     System.out.println("\nSort reverse by age:");
     Comparator<Person> comp = (aName, bName) ->
         aName.getAge().compareTo(bName.getAge());
-
+    //Make a stream
     people.stream()
         .sorted(comp.reversed())
         .forEach(System.out::println);

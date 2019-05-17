@@ -17,6 +17,9 @@ public class Person{
   public Integer getAge(){
     return this.age;
   }
+  public String getLastName(){
+    return this.lastName;
+  }
 
   @Override
   public String toString(){

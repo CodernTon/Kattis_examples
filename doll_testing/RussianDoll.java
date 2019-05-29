@@ -1,18 +1,17 @@
-import java.util.*;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java .util.Collections;
 import java.util.Comparator;
 
-/*
-Lagra all input i en lista
-
-Sortera listan i sjunkande ordning efter första värdet
-
-Sortera lista så att det skiljer åtminstonde värdet av 3:e värdet
-mellan varje docka, detta ska göras i två olika listor.
-Så använd deletefunktion när värdet är använt.
-Dessa två listor presenteras sedan efter varande med "-" emellan
-Gör sedan så programmet kan ta in mer än en dockomgång
-Presentera i form av två listor med olika output
+/**
+* Program that sort Russian dolls
+*
+*
+* @author  Anton Lyngfelt
+* @version 1.0
+* @since   2019-05-20
 */
 public class RussianDoll{
   List <Doll> dollResult1;
@@ -22,51 +21,53 @@ public class RussianDoll{
 
     List <Doll> dollList = new ArrayList<Doll>();
     List <Doll> finalList = new ArrayList<Doll>();
-    List <Integer> dollsinList = new ArrayList<Integer>();
+    List <Integer> dollsInList = new ArrayList<Integer>();
 
     RussianDoll Player = new RussianDoll();
 
     int numOfDolls=0;
     int [] value = new int[3];
-    int [] dollsInList = new int[5];
     int counter = 0;
 
     Comparator<Doll> compHeight = (aHeight, bHeight) ->
         bHeight.getHeight().compareTo(aHeight.getHeight());
 
-    System.out.println("Type testcase(0 to quit): ");
+    //System.out.println("Type testcase(0 to quit): ");
     while ((numOfDolls=sc.nextInt())!=0 && counter<5){
       //Insert function here
-      /*
+
       for (int i =0; i<(numOfDolls*2); i++){
         value[0]=sc.nextInt();
         value[1]=sc.nextInt();
         value[2]=sc.nextInt();
         dollList.add(new Doll(value[0],value[1],value[2]));
-      }*/
-
+      }
+      /*
       if (numOfDolls==1){
-        //TESTCASE
+        //TESTCASE 1
         numOfDolls=5;
         dollList=Player.testCase1();
       }
-      if (numOfDolls==2){
-        //TESTCASE
+      else if (numOfDolls==2){
+        //TESTCASE 2
         numOfDolls=3;
         dollList=Player.testCase2();
       }
-      if (numOfDolls==3){
-        //TESTCASE
+      else if (numOfDolls==3){
+        //TESTCASE 3
         numOfDolls=3;
         dollList=Player.testCase3();
       }
-      if (numOfDolls==4){
-        //TESTCASE
+      else if (numOfDolls==4){
+        //TESTCASE 4
         numOfDolls=3;
         dollList=Player.testCase4();
       }
-
-
+      else {
+        //TESTCASE 5(Every other int except 1-4)
+        numOfDolls=3;
+        dollList=Player.testCase5();
+      }*/
 
       //Sort the list in natural order
       Collections.sort(dollList, compHeight);
@@ -74,18 +75,22 @@ public class RussianDoll{
       //Code that sort the list correctly
       dollList=Player.sortTheList(dollList, numOfDolls);
 
+      //Add to final list before presenting
       finalList.addAll(dollList);
-      dollsinList.add(numOfDolls);
-
+      //Add number of dolls to list
+      dollsInList.add(numOfDolls);
+      //Clear List
       dollList.clear();
+      //Break outside loop
       if (counter==4){
         break;
       }
       counter++;
-    } //Outside loop
-    Player.presentResult(finalList, dollsinList);
+    }
+    //Call the method to present all the results
+    Player.presentResult(finalList, dollsInList);
   }
-  //Make a testcase
+  //Make testcases
   public List<Doll> testCase1(){
     List<Doll> dollList = new ArrayList<Doll>();
     dollList.add(new Doll(100,100,1));
@@ -121,12 +126,21 @@ public class RussianDoll{
     dollList.add(new Doll(10,10,2));
     return dollList;
   }
-
   public List<Doll> testCase4(){
     List<Doll> dollList = new ArrayList<Doll>();
     dollList.add(new Doll(20,20,2));
     dollList.add(new Doll(16,16,2));
     dollList.add(new Doll(18,18,2));
+    dollList.add(new Doll(14,14,2));
+    dollList.add(new Doll(12,12,2));
+    dollList.add(new Doll(10,10,2));
+    return dollList;
+  }
+  public List<Doll> testCase5(){
+    List<Doll> dollList = new ArrayList<Doll>();
+    dollList.add(new Doll(20,20,3));
+    dollList.add(new Doll(20,20,1));
+    dollList.add(new Doll(14,14,1));
     dollList.add(new Doll(14,14,2));
     dollList.add(new Doll(12,12,2));
     dollList.add(new Doll(10,10,2));
@@ -152,6 +166,7 @@ public class RussianDoll{
       }
     }
   }
+
   public List <Doll> sortTheList(List<Doll> dollList, int numOfDolls){
     //Test if list is okey
     Doll dollTemp1;
@@ -165,7 +180,6 @@ public class RussianDoll{
 
     int counter = 0;
     int dollResult1Counter=0;
-    int dollResult2Counter=0;
 
     //add first value to both list
     dollResult1.add(dollList.get(0));
@@ -178,14 +192,11 @@ public class RussianDoll{
 
       dollTemp2 = dollResult1.get(dollResult1Counter);
       temp1a = dollTemp2.getHeight();
-      //System.out.println(temp1a);
       temp1b = dollTemp1.getHeight();
       temp3 = dollTemp2.getWidth();
       temp3= temp3*2;
       temp1a = temp1a-temp3;
-      //System.out.println(temp1a);
-      //System.out.println(temp1b);
-      //
+
       if(temp1a >= temp1b && dollResult1.size()<(numOfDolls)){
         //System.out.println("Added to list 1");
         dollResult1.add(dollTemp1);
@@ -196,7 +207,6 @@ public class RussianDoll{
         //System.out.println("Added to list 2");
         dollResult2.add(dollTemp1);
         dollList.remove(0);
-        dollResult2Counter++;
       }
       counter++;
     }
@@ -204,12 +214,10 @@ public class RussianDoll{
     return dollResult1;
   }
 }
-
 class Doll{
   int height;
   int diameter;
   int width;
-
   public Doll(int height, int diameter, int width){
     this.height=height;
     this.diameter=diameter;

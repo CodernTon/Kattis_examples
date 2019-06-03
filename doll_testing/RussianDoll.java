@@ -20,6 +20,7 @@ public class RussianDoll{
     Scanner sc = new Scanner(System.in);
 
     List <Doll> dollList = new ArrayList<Doll>();
+    List <Doll> unSortedDollList = new ArrayList<Doll>();
     List <Doll> finalList = new ArrayList<Doll>();
     List <Integer> dollsInList = new ArrayList<Integer>();
 
@@ -28,14 +29,15 @@ public class RussianDoll{
     int numOfDolls=0;
     int [] value = new int[3];
     int counter = 0;
+    boolean checkIfCorrect = false;
 
     Comparator<Doll> compHeight = (aHeight, bHeight) ->
         bHeight.getHeight().compareTo(aHeight.getHeight());
 
-    //System.out.println("Type testcase(0 to quit): ");
+    //System.out.println("Type testcase(0 to quit): "); //First message, not needed
     while ((numOfDolls=sc.nextInt())!=0 && counter<5){
-      //Insert function here
 
+      //Type values manually
       for (int i =0; i<(numOfDolls*2); i++){
         value[0]=sc.nextInt();
         value[1]=sc.nextInt();
@@ -43,6 +45,7 @@ public class RussianDoll{
         dollList.add(new Doll(value[0],value[1],value[2]));
       }
       /*
+      //Different test cases! Just type number on test case: 1 2 3 4 etc.
       if (numOfDolls==1){
         //TESTCASE 1
         numOfDolls=5;
@@ -63,19 +66,43 @@ public class RussianDoll{
         numOfDolls=3;
         dollList=Player.testCase4();
       }
-      else {
+      else if (numOfDolls==5){
         //TESTCASE 5(Every other int except 1-4)
         numOfDolls=3;
         dollList=Player.testCase5();
+      }
+      else{
+        numOfDolls=5;
+        dollList=Player.testCase6();
       }*/
+
 
       //Sort the list in natural order
       Collections.sort(dollList, compHeight);
 
-      //Code that sort the list correctly
+      //Place the sorted list in a temp variable in case it cant be sorted first time
+      unSortedDollList.addAll(dollList);
+
+      //Code that sort the list
       dollList=Player.sortTheList(dollList, numOfDolls);
 
-      //Add to final list before presenting
+      //If it is a error with list, it tries new values
+      try{
+        int q=1;
+        while(dollList.size()==0){
+          dollList.addAll(unSortedDollList);
+          Collections.swap(dollList, q, q+1);
+          dollList=Player.sortTheList(dollList, numOfDolls);
+          q++;
+        }
+      }catch(Exception e){
+        dollList.addAll(unSortedDollList);
+      }
+
+      //Clear the List, so it can use it again!
+      unSortedDollList.clear();
+
+      //Add to final list
       finalList.addAll(dollList);
       //Add number of dolls to list
       dollsInList.add(numOfDolls);
@@ -146,6 +173,20 @@ public class RussianDoll{
     dollList.add(new Doll(10,10,2));
     return dollList;
   }
+  public List<Doll> testCase6(){
+    List<Doll> dollList = new ArrayList<Doll>();
+    dollList.add(new Doll(100,100,1));
+    dollList.add(new Doll(98,98,2));
+    dollList.add(new Doll(97,97,1));
+    dollList.add(new Doll(95,95,1));
+    dollList.add(new Doll(94,94,2));
+    dollList.add(new Doll(93,93,1));
+    dollList.add(new Doll(90,90,2));
+    dollList.add(new Doll(89,89,2));
+    dollList.add(new Doll(86,86,2));
+    dollList.add(new Doll(85,85,2));
+    return dollList;
+  }
 
   //Present result
   public void presentResult(List <Doll> finalList, List <Integer> numOfDolls){
@@ -180,14 +221,15 @@ public class RussianDoll{
 
     int counter = 0;
     int dollResult1Counter=0;
+    int dollResult2Counter=0;
 
     //add first value to both list
     dollResult1.add(dollList.get(0));
     dollResult2.add(dollList.get(1));
     dollList.remove(0);
     dollList.remove(0);
-
-    while( dollList.size() > 0 && (counter<=numOfDolls*2)){
+    int temp= (numOfDolls*2)-2;
+    while( dollList.size() > 0 && (counter<=temp)){
       dollTemp1 = dollList.get(0);
 
       dollTemp2 = dollResult1.get(dollResult1Counter);
@@ -202,14 +244,22 @@ public class RussianDoll{
         dollResult1.add(dollTemp1);
         dollList.remove(0);
         dollResult1Counter++;
+        counter++;
       }
-      else {
+      else if(temp1a <= temp1b && dollResult2.size()<(numOfDolls)) {
         //System.out.println("Added to list 2");
         dollResult2.add(dollTemp1);
         dollList.remove(0);
+        dollResult2Counter++;
+        counter++;
       }
-      counter++;
+      else{
+        //Only gets here if it needs to change start values.
+        dollResult1.clear();
+        return dollResult1;
+      }
     }
+    //Adds all values to list
     dollResult1.addAll(dollResult2);
     return dollResult1;
   }

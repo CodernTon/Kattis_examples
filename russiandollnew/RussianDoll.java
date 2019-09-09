@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 /**
  * Program that sort Russian dolls
@@ -14,9 +15,10 @@ import java.util.Comparator;
  */
 public class RussianDoll{
 
+
     public static void main(String[]args){
         Scanner sc = new Scanner(System.in);
-
+        Random rand;
         List <Doll> dollList = new ArrayList<>();
         List <Doll> unSortedDollList = new ArrayList<>();
         List <Doll> finalList = new ArrayList<>();
@@ -31,58 +33,23 @@ public class RussianDoll{
         Comparator<Doll> compHeight = (aHeight, bHeight) ->
                 bHeight.getHeight().compareTo(aHeight.getHeight());
 
-        //System.out.println("Type testcase(0 to quit): "); //First message, not needed
+        Comparator<Doll> compWidth = (aWidth, bWidth) ->
+                bWidth.getWidth().compareTo(bWidth.getWidth());
+
         while ((numOfDolls=sc.nextInt())!=0 && numOfDolls<201 && counter<5){
-            //Type values manually
-            /*
+
              for (int i =0; i<(numOfDolls*2); i++){
                 value[0]=sc.nextInt();
                 value[1]=sc.nextInt();
                 value[2]=sc.nextInt();
                 dollList.add(new Doll(value[0],value[1],value[2]));
             }
-             */
-          //Different test cases! Just type number on test case: 1 2 3 4 etc.
-          if (numOfDolls==1){
-            //TESTCASE 1
-            numOfDolls=5;
-            dollList=Player.testCase1();
-          }
-          else if (numOfDolls==2){
-            //TESTCASE 2
-            numOfDolls=3;
-            dollList=Player.testCase2();
-          }
-          else if (numOfDolls==3){
-            //TESTCASE 3
-            dollList=Player.testCase3();
-          }
-          else if (numOfDolls==4){
-            //TESTCASE 4
-            numOfDolls=3;
-            dollList=Player.testCase4();
-          }
-          else if (numOfDolls==5){
-            //TESTCASE 5(Every other int except 1-4)
-            numOfDolls=3;
-            dollList=Player.testCase5();
-          }
-          else if (numOfDolls==6){
-              //TESTCASE 5(Every other int except 1-4)
-              numOfDolls=5;
-              dollList=Player.testCase6();
-          }
-          else if (numOfDolls==7){
-              //TESTCASE 5(Every other int except 1-4)
-              numOfDolls=3;
-              dollList=Player.testCase7();
-          }
-          else{
-            numOfDolls=5;
-            dollList=Player.testCase8();
-          }
+
             //Sort the list in natural order
             Collections.sort(dollList, compHeight);
+            Collections.sort(dollList, compWidth);
+
+            System.out.println(dollList);
 
             //Place the sorted list in a temp variable in case it cant be sorted first time
             unSortedDollList.addAll(dollList);
@@ -92,12 +59,15 @@ public class RussianDoll{
 
             //If it is a error with list, it tries new values
             try{
-                int q=1;
                 while(dollList.size()==0){
+                    rand = new Random();
+                    int r = rand.nextInt(numOfDolls)+1;
+                    int q = rand.nextInt(numOfDolls)+1;
+
+
                     dollList.addAll(unSortedDollList);
-                    Collections.swap(dollList, q, q+1);
+                    Collections.swap(dollList, r, q);
                     dollList=Player.sortTheList(dollList, numOfDolls);
-                    q++;
                 }
             }catch(Exception e){
                 System.out.println("Here is error!");
@@ -122,101 +92,6 @@ public class RussianDoll{
         //Call the method to present all the results
         Player.presentResult(finalList, dollsInList);
     }
-    //Testcases
-    public List<Doll> testCase1(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,1));
-        dollList.add(new Doll(97,97,3));
-        dollList.add(new Doll(98,98,1));
-        dollList.add(new Doll(96,96,1));
-        dollList.add(new Doll(94,94,1));
-        dollList.add(new Doll(92,92,1));
-        dollList.add(new Doll(90,90,1));
-        dollList.add(new Doll(88,88,1));
-        dollList.add(new Doll(86,86,1));
-        dollList.add(new Doll(84,84,1));
-        return dollList;
-    }
-    public List<Doll> testCase2(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,3));
-        dollList.add(new Doll(97,97,3));
-        dollList.add(new Doll(94,94,3));
-        dollList.add(new Doll(91,91,3));
-        dollList.add(new Doll(88,88,3));
-        dollList.add(new Doll(85,85,3));
-        return dollList;
-    }
-
-    public List<Doll> testCase3(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(20,20,3));
-        dollList.add(new Doll(19,19,2));
-        dollList.add(new Doll(14,14,2));
-        dollList.add(new Doll(15,15,2));
-        dollList.add(new Doll(11,11,3));
-        dollList.add(new Doll(10,10,2));
-        return dollList;
-    }
-    public List<Doll> testCase4(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(20,20,2));
-        dollList.add(new Doll(16,16,2));
-        dollList.add(new Doll(18,18,2));
-        dollList.add(new Doll(14,14,2));
-        dollList.add(new Doll(12,12,2));
-        dollList.add(new Doll(10,10,2));
-        return dollList;
-    }
-    public List<Doll> testCase5(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,2));
-        dollList.add(new Doll(95,95,1));
-        dollList.add(new Doll(96,96,2));
-        dollList.add(new Doll(93,93,2));
-        dollList.add(new Doll(92,92,2));
-        dollList.add(new Doll(89,89,2));
-        return dollList;
-    }
-    public List<Doll> testCase6(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,1));
-        dollList.add(new Doll(98,98,2));
-        dollList.add(new Doll(97,97,1));
-        dollList.add(new Doll(95,95,1));
-        dollList.add(new Doll(94,94,2));
-        dollList.add(new Doll(93,93,1));
-        dollList.add(new Doll(90,90,2));
-        dollList.add(new Doll(89,89,2));
-        dollList.add(new Doll(86,86,2));
-        dollList.add(new Doll(85,85,2));
-        return dollList;
-    }
-    public List<Doll> testCase7(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,2));
-        dollList.add(new Doll(99,99,3));
-        dollList.add(new Doll(96,96,2));
-        dollList.add(new Doll(93,93,2));
-        dollList.add(new Doll(92,92,2));
-        dollList.add(new Doll(88,88,2));
-        return dollList;
-    }
-    public List<Doll> testCase8(){
-        List<Doll> dollList = new ArrayList<>();
-        dollList.add(new Doll(100,100,2));
-        dollList.add(new Doll(99,99,3));
-        dollList.add(new Doll(96,96,2));
-        dollList.add(new Doll(93,93,2));
-        dollList.add(new Doll(92,92,2));
-        dollList.add(new Doll(89,89,2));
-        dollList.add(new Doll(88,88,2));
-        dollList.add(new Doll(82,82,2));
-        dollList.add(new Doll(75,75,2));
-        dollList.add(new Doll(65,65,2));
-        return dollList;
-    }
-
     //Present result, works
     public void presentResult(List <Doll> finalList, List <Integer> numOfDolls){
         for(int j = 0; j<numOfDolls.size();j++){
@@ -299,11 +174,11 @@ public class RussianDoll{
             }
             else{
                 //Only gets here if it needs to change start values.
-                /*
-                System.out.println(dollResult1);
-                System.out.println();
-                System.out.println(dollResult2);
-                 */
+
+                //System.out.println(dollResult1);
+                //System.out.println();
+                //System.out.println(dollResult2);
+
                 dollResult1.clear();
                 return dollResult1;
             }

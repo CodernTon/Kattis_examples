@@ -7,7 +7,6 @@ public class Ladder{
     double height=sc.nextInt();
     double degrees = sc.nextDouble();
     int result = (int)(height/(Math.sin(Math.toRadians(degrees))));
-
     System.out.println(result+1);
   }
 }

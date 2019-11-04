@@ -1,2 +1,4 @@
 # Kattis_examples
-Uploading small test-programs
+Here is my solution to some of the coding problems up on [kattis](https://open.kattis.com). 
+
+

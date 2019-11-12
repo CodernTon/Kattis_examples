@@ -27,7 +27,6 @@ public class Zamka{
   }
   public static int calculateSum(int minimumValue){
     result= 0;
-    //Counts the sum of a number
     String tempV1 = Integer.toString(minimumValue);
     tempV1Arr=new String[tempV1.length()];
     for (int j = 0; j < tempV1.length(); j++){
